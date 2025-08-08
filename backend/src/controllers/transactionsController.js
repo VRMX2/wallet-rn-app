@@ -1,20 +1,25 @@
+// controllers/transactionsController.js
 import { sql } from '../config/db.js';
 
 export async function getTransactionsByUserId(req, res) {
   try {
     const { userId } = req.params;
+    
+    if (!userId || userId === "undefined") {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
     const transactions = await sql`
-      SELECT * FROM transactions WHERE user_id = ${userId}
+      SELECT * FROM transactions 
+      WHERE user_id = ${userId}
+      ORDER BY created_at DESC
     `;
+    
     res.status(200).json(transactions);
   } catch (error) {
-    console.error("❌ Error fetching transactions:", error);
+    console.error("Error fetching transactions:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
-
-export async function getAllTransactionsForUser(req, res) {
-  return getTransactionsByUserId(req, res);
 }
 
 export async function createTransaction(req, res) {
@@ -33,7 +38,7 @@ export async function createTransaction(req, res) {
 
     res.status(201).json(transaction[0]);
   } catch (error) {
-    console.error("Error creating the transaction", error);
+    console.error("Error creating transaction:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -42,22 +47,29 @@ export async function getSummary(req, res) {
   try {
     const { userId } = req.params;
 
+    if (!userId || userId === "undefined") {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
     const [balance] = await sql`
-      SELECT COALESCE(SUM(amount), 0) AS balance FROM transactions WHERE user_id = ${userId}`;
+      SELECT COALESCE(SUM(amount), 0) AS balance
+      FROM transactions WHERE user_id = ${userId}`;
 
     const [income] = await sql`
-      SELECT COALESCE(SUM(amount), 0) AS income FROM transactions WHERE user_id = ${userId} AND amount > 0`;
+      SELECT COALESCE(SUM(amount), 0) AS income
+      FROM transactions WHERE user_id = ${userId} AND amount > 0`;
 
     const [expenses] = await sql`
-      SELECT COALESCE(SUM(amount), 0) AS expenses FROM transactions WHERE user_id = ${userId} AND amount < 0`;
+      SELECT COALESCE(SUM(amount), 0) AS expenses
+      FROM transactions WHERE user_id = ${userId} AND amount < 0`;
 
     res.status(200).json({
-      balance: balance.balance,
-      income: income.income,
-      expenses: expenses.expenses,
+      balance: parseFloat(balance.balance),
+      income: parseFloat(income.income),
+      expenses: parseFloat(expenses.expenses),
     });
   } catch (error) {
-    console.error("Error getting the summary", error);
+    console.error("Error getting summary:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -83,7 +95,7 @@ export async function deleteTransactionById(req, res) {
       deleted: deleted[0],
     });
   } catch (error) {
-    console.error("❌ Error deleting transaction:", error);
+    console.error("Error deleting transaction:", error);
     res.status(500).json({ message: "Internal server error" });
-  }
+	}
 }

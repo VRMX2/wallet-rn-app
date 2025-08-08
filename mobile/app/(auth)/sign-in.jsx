@@ -50,7 +50,12 @@ export default function Page() {
       extraHeight={90}
     >
       <View style={styles.container}>
-        <Image source={require('../../assets/images/revenue-i4.png')} style={styles.illustration} />
+		<Image
+  source={require('../../assets/images/revenue-i4.png')} 
+  style={styles.illustration} 
+  contentFit="contain" // ✅ replaces resizeMode
+/>
+
         <Text style={styles.title}>Welcome Back</Text>
 
         {error ? (

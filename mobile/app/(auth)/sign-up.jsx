@@ -80,12 +80,17 @@ export default function SignUpScreen() {
       extraHeight={90}
     >
       <View style={styles.container}>
-        <Image source={require('../../assets/images/revenue-i2.png')} style={styles.illustration} />
+		<Image
+  source={require('../../assets/images/revenue-i2.png')} 
+  style={styles.illustration} 
+  contentFit="contain" // ✅ replaces resizeMode
+/>
+
         <Text style={styles.title}>Create Account</Text>
 
         {error ? (
           <View style={styles.errorBox}>
-            <Ionicons name="alert-circle" size={20} color={COLORS.expense} />
+			<Ionicons name = "alert-circle" size = {20} color = {COLORS.expense} />
             <Text style={styles.errorText}>{error}</Text>
             <TouchableOpacity onPress={() => setError('')}>
               <Ionicons name="close" size={20} color={COLORS.textLight} />

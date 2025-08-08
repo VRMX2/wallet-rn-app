@@ -62,33 +62,28 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-  verificationContainer: {
+	verificationContainer: {
     flex: 1,
-    backgroundColor: COLORS.background,
     padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
   },
-  verificationTitle: {
+	verificationTitle: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: COLORS.text,
+    fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: "center",
+    textAlign: 'center',
+    color: COLORS.text,
   },
-  verificationInput: {
+	verificationInput: {
     backgroundColor: COLORS.white,
     borderRadius: 12,
     padding: 15,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: COLORS.border,
     fontSize: 16,
     color: COLORS.text,
-    width: "100%",
-    textAlign: "center",
-    letterSpacing: 2,
-  },
+    borderWidth: 1,
+    borderColor: COLORS.border,
+	},
 
   // 🔴 Error styles
   errorBox: {
@@ -102,10 +97,19 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+	errorContainer: {
+    backgroundColor: '#FFEBEE',
+    padding: 12,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.expense,
+  },
   errorText: {
     color: COLORS.text,
     marginLeft: 8,
     flex: 1,
-    fontSize: 14,
-  },
+	}
 });
